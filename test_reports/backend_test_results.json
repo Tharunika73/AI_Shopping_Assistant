@@ -1,0 +1,161 @@
+{
+  "summary": {
+    "total_tests": 25,
+    "passed_tests": 24,
+    "failed_tests": 1,
+    "success_rate": 96.0,
+    "timestamp": "2025-10-07T04:07:24.931154"
+  },
+  "results": [
+    {
+      "name": "Root Endpoint",
+      "success": true,
+      "details": "",
+      "timestamp": "2025-10-07T04:07:17.506335"
+    },
+    {
+      "name": "Health Check",
+      "success": true,
+      "details": "",
+      "timestamp": "2025-10-07T04:07:17.542800"
+    },
+    {
+      "name": "Sync Products",
+      "success": true,
+      "details": "",
+      "timestamp": "2025-10-07T04:07:17.799716"
+    },
+    {
+      "name": "User Registration",
+      "success": true,
+      "details": "",
+      "timestamp": "2025-10-07T04:07:18.061534"
+    },
+    {
+      "name": "User Login",
+      "success": true,
+      "details": "",
+      "timestamp": "2025-10-07T04:07:18.324643"
+    },
+    {
+      "name": "Get All Products",
+      "success": true,
+      "details": "",
+      "timestamp": "2025-10-07T04:07:18.359392"
+    },
+    {
+      "name": "Get Products with Limit",
+      "success": true,
+      "details": "",
+      "timestamp": "2025-10-07T04:07:18.393065"
+    },
+    {
+      "name": "Get Products with Search",
+      "success": true,
+      "details": "",
+      "timestamp": "2025-10-07T04:07:18.430867"
+    },
+    {
+      "name": "Get Products with Category",
+      "success": true,
+      "details": "",
+      "timestamp": "2025-10-07T04:07:18.469056"
+    },
+    {
+      "name": "Get Products with Price Filter",
+      "success": true,
+      "details": "",
+      "timestamp": "2025-10-07T04:07:18.505545"
+    },
+    {
+      "name": "Get Products Sorted by Price",
+      "success": true,
+      "details": "",
+      "timestamp": "2025-10-07T04:07:18.538983"
+    },
+    {
+      "name": "Get Product 1",
+      "success": true,
+      "details": "",
+      "timestamp": "2025-10-07T04:07:18.577350"
+    },
+    {
+      "name": "Get Empty Cart",
+      "success": true,
+      "details": "",
+      "timestamp": "2025-10-07T04:07:18.614592"
+    },
+    {
+      "name": "Add to Cart",
+      "success": true,
+      "details": "",
+      "timestamp": "2025-10-07T04:07:18.652162"
+    },
+    {
+      "name": "Get Cart with Items",
+      "success": true,
+      "details": "",
+      "timestamp": "2025-10-07T04:07:18.690447"
+    },
+    {
+      "name": "Update Cart Item",
+      "success": true,
+      "details": "",
+      "timestamp": "2025-10-07T04:07:18.725283"
+    },
+    {
+      "name": "Remove from Cart",
+      "success": true,
+      "details": "",
+      "timestamp": "2025-10-07T04:07:18.760377"
+    },
+    {
+      "name": "Get Empty Wishlist",
+      "success": true,
+      "details": "",
+      "timestamp": "2025-10-07T04:07:18.836788"
+    },
+    {
+      "name": "Add to Wishlist",
+      "success": true,
+      "details": "",
+      "timestamp": "2025-10-07T04:07:18.871904"
+    },
+    {
+      "name": "Get Wishlist with Items",
+      "success": true,
+      "details": "",
+      "timestamp": "2025-10-07T04:07:18.903880"
+    },
+    {
+      "name": "Remove from Wishlist",
+      "success": true,
+      "details": "",
+      "timestamp": "2025-10-07T04:07:18.939581"
+    },
+    {
+      "name": "Add Item for Checkout",
+      "success": true,
+      "details": "",
+      "timestamp": "2025-10-07T04:07:18.972641"
+    },
+    {
+      "name": "Checkout Order",
+      "success": true,
+      "details": "",
+      "timestamp": "2025-10-07T04:07:19.012012"
+    },
+    {
+      "name": "Get Orders",
+      "success": false,
+      "details": "Expected 200, got 500 - Internal Server Error",
+      "timestamp": "2025-10-07T04:07:19.048066"
+    },
+    {
+      "name": "AI Query",
+      "success": true,
+      "details": "",
+      "timestamp": "2025-10-07T04:07:24.930104"
+    }
+  ]
+}
