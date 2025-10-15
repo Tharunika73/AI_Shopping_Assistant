@@ -6,6 +6,7 @@ import { Input } from '../components/ui/input';
 import { Card, CardContent } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
 import { Label } from '../components/ui/label';
+import { addToWishlist } from "../store/wishlistSlice";
 import {
   Select,
   SelectContent,
@@ -66,7 +67,23 @@ const ProductsPage = () => {
     if (sortBy) params.set('sort', sortBy);
     setSearchParams(params);
   }, [searchQuery, selectedCategory, minPrice, maxPrice, sortBy, setSearchParams]);
+const handleAddToWishlist = async (productId) => {
+    if (!isAuthenticated) {
+      dispatch(setShowAuthModal(true));
+      return;
+    }
 
+    try {
+      const result = await dispatch(addToWishlist({ product_id: productId })).unwrap();
+      if (result.message === "Item already in wishlist") {
+          toast.info('This item is already in your wishlist!');
+      } else {
+          toast.success('Added to wishlist!');
+      }
+    } catch (error) {
+      toast.error('Failed to add to wishlist.');
+    }
+  };
   const fetchProducts = async () => {
     setIsLoading(true);
     try {
@@ -121,6 +138,7 @@ const ProductsPage = () => {
     setCurrentPage(1);
   };
 
+
   const renderPagination = () => {
     if (totalPages <= 1) return null;
 
@@ -136,6 +154,7 @@ const ProductsPage = () => {
     for (let i = startPage; i <= endPage; i++) {
       pages.push(i);
     }
+
 
     return (
       <div className="flex justify-center items-center space-x-2 mt-8">
@@ -358,13 +377,17 @@ const ProductsPage = () => {
                             Add to Cart
                           </Button>
                           <Button
-                            variant="outline"
-                            size="icon"
-                            onClick={(e) => e.stopPropagation()}
-                            data-testid={`wishlist-${product.id}`}
-                          >
-                            <Heart className="w-4 h-4" />
-                          </Button>
+                                                  variant="outline"
+                                                  size="icon"
+                                                  onClick={(e) => {
+                                                      e.stopPropagation();
+                                                      handleAddToWishlist(product.id);
+                                                  }}
+                                                  data-testid={`wishlist-btn-${product.id}`}
+                                                >
+                                                  <Heart className="w-4 h-4" />
+                                                </Button>
+
                         </div>
                       </CardContent>
                     </Card>

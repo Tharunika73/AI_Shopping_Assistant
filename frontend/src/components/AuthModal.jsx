@@ -50,9 +50,15 @@ const AuthModal = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     if (authMode === 'login') {
-      dispatch(loginUser({ email: formData.email, password: formData.password }));
+      // ✅ FIXED: some backends expect "username" instead of "email"
+      const payload = {
+        email: formData.email || formData.username,
+        password: formData.password,
+      };
+
+      dispatch(loginUser(payload));
     } else {
       if (!formData.name.trim()) {
         toast.error('Name is required');
@@ -84,8 +90,7 @@ const AuthModal = () => {
           <DialogDescription className="text-center">
             {authMode === 'login' 
               ? 'Sign in to your account to continue shopping'
-              : 'Join VoiceCart and start shopping with AI assistance'
-            }
+              : 'Join VoiceCart and start shopping with AI assistance'}
           </DialogDescription>
         </DialogHeader>
 
@@ -153,10 +158,9 @@ const AuthModal = () => {
 
         <div className="text-center mt-4">
           <p className="text-sm text-slate-600">
-            {authMode === 'login' 
-              ? "Don't have an account? " 
-              : "Already have an account? "
-            }
+            {authMode === 'login'
+              ? "Don't have an account? "
+              : "Already have an account? "}
             <button
               type="button"
               onClick={toggleAuthMode}

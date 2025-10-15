@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button } from '../components/ui/button';
@@ -23,17 +23,27 @@ const ProfilePage = () => {
 
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
-    name: user?.name || '',
-    email: user?.email || '',
+    name: '',
+    email: '',
   });
 
-  React.useEffect(() => {
+  // ✅ Load user info properly on mount and Redux update
+  useEffect(() => {
     if (!isAuthenticated) {
       dispatch(setShowAuthModal(true));
       navigate('/');
       return;
     }
-  }, [isAuthenticated, dispatch, navigate]);
+
+    // Try to load user from Redux or localStorage
+    const storedUser = user || JSON.parse(localStorage.getItem('user'));
+    if (storedUser) {
+      setFormData({
+        name: storedUser.name || '',
+        email: storedUser.email || '',
+      });
+    }
+  }, [isAuthenticated, user, dispatch, navigate]);
 
   const handleInputChange = (e) => {
     setFormData({
@@ -49,9 +59,10 @@ const ProfilePage = () => {
   };
 
   const handleCancel = () => {
+    const storedUser = user || JSON.parse(localStorage.getItem('user'));
     setFormData({
-      name: user?.name || '',
-      email: user?.email || '',
+      name: storedUser?.name || '',
+      email: storedUser?.email || '',
     });
     setIsEditing(false);
   };
@@ -102,7 +113,7 @@ const ProfilePage = () => {
                   />
                 ) : (
                   <div className="px-3 py-2 bg-slate-50 rounded-md" data-testid="name-display">
-                    {user?.name}
+                    {formData.name || 'N/A'}
                   </div>
                 )}
               </div>
@@ -121,7 +132,7 @@ const ProfilePage = () => {
                 ) : (
                   <div className="px-3 py-2 bg-slate-50 rounded-md flex items-center" data-testid="email-display">
                     <Mail className="w-4 h-4 mr-2 text-slate-500" />
-                    {user?.email}
+                    {formData.email || 'N/A'}
                   </div>
                 )}
               </div>
@@ -130,11 +141,13 @@ const ProfilePage = () => {
                 <Label>Member Since</Label>
                 <div className="px-3 py-2 bg-slate-50 rounded-md flex items-center" data-testid="member-since">
                   <Calendar className="w-4 h-4 mr-2 text-slate-500" />
-                  {user?.created_at ? new Date(user.created_at).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                  }) : 'Unknown'}
+                  {user?.created_at
+                    ? new Date(user.created_at).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                      })
+                    : 'Unknown'}
                 </div>
               </div>
 

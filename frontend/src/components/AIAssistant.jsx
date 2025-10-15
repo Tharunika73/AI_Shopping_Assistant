@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom'; // ADDED: Import useNavigate for navigation
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Card, CardContent } from './ui/card';
@@ -17,10 +18,8 @@ import {
   Mic, 
   MicOff, 
   Send, 
-  Volume2, 
   VolumeX, 
   ShoppingCart,
-  Heart,
   Loader2
 } from 'lucide-react';
 import { speechManager } from '../utils/speechUtils';
@@ -28,6 +27,7 @@ import api from '../utils/api';
 
 const AIAssistant = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate(); // ADDED: Initialize the navigate function
   const { showAIAssistant } = useSelector((state) => state.ui);
   const { isAuthenticated } = useSelector((state) => state.auth);
   
@@ -105,7 +105,6 @@ const AIAssistant = () => {
     setIsLoading(true);
     setQuery('');
 
-    // Add user message to conversation
     const userMessage = {
       id: Date.now(),
       type: 'user',
@@ -131,7 +130,6 @@ const AIAssistant = () => {
 
       setConversations(prev => [...prev, assistantMessage]);
 
-      // Speak the response
       if (response.data.reply_text) {
         speechManager.speak(response.data.reply_text, () => {
           setIsSpeaking(false);
@@ -155,7 +153,9 @@ const AIAssistant = () => {
     }
   };
 
-  const handleAddToCart = async (productId) => {
+  // MODIFIED: Added 'e' parameter and stopPropagation to prevent navigation
+  const handleAddToCart = async (e, productId) => {
+    e.stopPropagation(); // Prevents the card's click event from firing
     if (!isAuthenticated) {
       dispatch(setShowAuthModal(true));
       return;
@@ -167,6 +167,12 @@ const AIAssistant = () => {
     } catch (error) {
       toast.error('Failed to add to cart');
     }
+  };
+
+  // ADDED: New function to handle clicking on a product card
+  const handleProductClick = (productId) => {
+    navigate(`/products/${productId}`);
+    handleClose(); // Close the modal after navigating
   };
 
   const toggleSpeaking = () => {
@@ -238,7 +244,12 @@ const AIAssistant = () => {
                     {message.results && message.results.length > 0 && (
                       <div className="mt-3 space-y-2">
                         {message.results.slice(0, 3).map((product) => (
-                          <Card key={product.product_id} className="overflow-hidden">
+                          // MODIFIED: Added onClick, cursor-pointer, and hover effect to the card
+                          <Card 
+                            key={product.product_id} 
+                            className="overflow-hidden cursor-pointer hover:bg-slate-100 transition-colors"
+                            onClick={() => handleProductClick(product.product_id)}
+                          >
                             <CardContent className="p-3">
                               <div className="flex items-center space-x-3">
                                 <img
@@ -252,7 +263,8 @@ const AIAssistant = () => {
                                 </div>
                                 <Button
                                   size="sm"
-                                  onClick={() => handleAddToCart(product.product_id)}
+                                  // MODIFIED: Pass the event 'e' to the handler
+                                  onClick={(e) => handleAddToCart(e, product.product_id)}
                                   className="bg-blue-600 hover:bg-blue-700 text-white"
                                   data-testid={`add-to-cart-${product.product_id}`}
                                 >
