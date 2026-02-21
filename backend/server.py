@@ -525,6 +525,13 @@ async def health_check():
     return {"status": "healthy", "timestamp": datetime.now(timezone.utc)}
 
 # Include the router in the main app
+@app.get("/")
+async def home():
+    return {
+        "message": "AI Shopping Backend Live 🚀",
+        "docs": "/docs",
+        "api": "/api"
+    }
 app.include_router(api_router)
 
 app.add_middleware(
