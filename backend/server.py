@@ -21,6 +21,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 import pickle
 # from emergentintegrations.llm.chat import LlmChat, UserMessage
 
+
 # ADDED: Imports for sending email
 import smtplib
 from email.message import EmailMessage
@@ -42,6 +43,9 @@ security = HTTPBearer()
 
 # Create the main app without a prefix
 app = FastAPI(title="AI Shopping Backend", version="1.0.0")
+@app.get("/health")
+def health():
+    return {"status": "ok"}
 
 # Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
