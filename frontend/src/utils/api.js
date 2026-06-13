@@ -24,6 +24,20 @@ api.interceptors.request.use(
   }
 );
 
+// Add this new function to your api.js file
+
+export const getRecommendedProducts = async (productId) => {
+  try {
+    const response = await fetch(`/api/products/${productId}/recommendations`);
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Failed to fetch recommended products:", error);
+    return []; // Return an empty array on error
+  }
+};
 // Response interceptor to handle auth errors
 api.interceptors.response.use(
   (response) => response,

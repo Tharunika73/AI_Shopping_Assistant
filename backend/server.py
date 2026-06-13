@@ -11,10 +11,10 @@ from typing import List, Optional
 from uuid import uuid4
 from datetime import datetime, timezone
 import httpx
-import asyncio
+import asyncio 
 from jose import JWTError, jwt
 import bcrypt
-import json
+import json 
 from sentence_transformers import SentenceTransformer
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
@@ -303,7 +303,24 @@ async def generate_ai_response(query: str, search_results: List[dict]):
         return "I'm here to help you find products!"
 
 # --- ALL YOUR EXISTING ROUTES (Auth, Products, Cart, etc.) ARE UNCHANGED ---
+@app.route('/api/products/<int:product_id>/recommendations', methods=['GET'])
+def get_recommendations(product_id):
+    # Find the product the user is currently viewing
+    current_product = next((p for p in products if p['id'] == product_id), None)
 
+    if not current_product:
+        return jsonify({"error": "Product not found"}), 404
+
+    current_category = current_product['category']
+
+    # Find other products in the same category, excluding the current one
+    recommended_products = [
+        p for p in products
+        if p['category'] == current_category and p['id'] != product_id
+    ]
+
+    # Return up to 3 recommendations
+    return jsonify(recommended_products[:3])
 # Authentication Routes
 @api_router.post("/auth/register", response_model=dict)
 async def register(user_data: UserCreate):

@@ -32,8 +32,6 @@
     "@radix-ui/react-toggle-group": "^1.1.7",
     "@radix-ui/react-tooltip": "^1.2.4",
     "@reduxjs/toolkit": "^2.9.0",
-    "ajv": "^8.12.0",
-    "ajv-keywords": "^5.1.0",
     "axios": "^1.12.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -58,9 +56,12 @@
     "zod": "^3.24.4"
   },
   "scripts": {
+    "dev": "craco start",
     "start": "craco start",
+    "start:direct": "react-scripts start",
     "build": "craco build",
-    "test": "craco test"
+    "test": "craco test",
+    "postinstall": "npm install react-scripts@5.0.1 --no-audit --no-fund --legacy-peer-deps"
   },
   "browserslist": {
     "production": [
@@ -76,10 +77,10 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "@craco/craco": "^5.9.0",
+    "@craco/craco": "^7.1.0",
     "@eslint/js": "9.23.0",
     "autoprefixer": "^10.4.20",
-    "eslint": "^9.37.0",
+    "eslint": "9.23.0",
     "eslint-plugin-import": "2.31.0",
     "eslint-plugin-jsx-a11y": "6.10.2",
     "eslint-plugin-react": "7.37.4",
