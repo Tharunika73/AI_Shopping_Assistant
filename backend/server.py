@@ -187,7 +187,10 @@ async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(s
 # Sync products from Fake Store API
 async def sync_products_from_api():
     try:
-        async with httpx.AsyncClient() as client:
+        async with httpx.AsyncClient(
+            headers={"User-Agent": "Mozilla/5.0 (compatible; AIShopping/1.0)"},
+            timeout=30.0,
+        ) as client:
             response = await client.get("https://fakestoreapi.com/products")
             if response.status_code == 200:
                 products = response.json()
