@@ -27,7 +27,6 @@ services:
   - type: web
     name: ai-shopping-frontend
     runtime: static
-    region: singapore
     rootDir: frontend
     buildCommand: npm install --legacy-peer-deps && npm run build
     staticPublishPath: build
