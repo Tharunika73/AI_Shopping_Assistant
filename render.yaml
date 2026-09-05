@@ -24,8 +24,9 @@ services:
       - key: MAIL_PASSWORD
         sync: false
 
-  - type: static
+  - type: web
     name: ai-shopping-frontend
+    runtime: static
     region: singapore
     rootDir: frontend
     buildCommand: npm install --legacy-peer-deps && npm run build
