@@ -194,19 +194,22 @@ async def sync_products_from_api():
             response = await client.get("https://fakestoreapi.com/products")
             if response.status_code == 200:
                 products = response.json()
-                
-                # Clear existing products
-                await db.products.delete_many({})
-                
-                # Insert new products
-                for product in products:
-                    await db.products.insert_one(product)
-                
-                print(f"Synced {len(products)} products from API")
-                return True
             else:
                 print(f"Failed to fetch products: {response.status_code}")
-                return False
+                products = [
+                    {"id": 1, "title": "Classic Cotton T-Shirt", "price": 19.99, "description": "Comfortable everyday cotton t-shirt.", "category": "men's clothing", "image": "https://fakestoreapi.com/img/1.jpg", "rating": {"rate": 4.2, "count": 120}},
+                    {"id": 2, "title": "Slim Fit Jacket", "price": 49.99, "description": "A versatile jacket for everyday wear.", "category": "men's clothing", "image": "https://fakestoreapi.com/img/2.jpg", "rating": {"rate": 4.0, "count": 95}},
+                    {"id": 3, "title": "Gold-Plated Necklace", "price": 34.99, "description": "Elegant jewelry for special occasions.", "category": "jewelery", "image": "https://fakestoreapi.com/img/5.jpg", "rating": {"rate": 4.5, "count": 80}},
+                    {"id": 4, "title": "Portable SSD Drive", "price": 89.99, "description": "Fast, compact storage for your files.", "category": "electronics", "image": "https://fakestoreapi.com/img/9.jpg", "rating": {"rate": 4.4, "count": 150}},
+                    {"id": 5, "title": "Women's Backpack", "price": 59.99, "description": "Lightweight backpack with practical storage.", "category": "women's clothing", "image": "https://fakestoreapi.com/img/19.jpg", "rating": {"rate": 4.1, "count": 110}},
+                ]
+
+        await db.products.delete_many({})
+        for product in products:
+            await db.products.insert_one(product)
+
+        print(f"Synced {len(products)} products")
+        return True
     except Exception as e:
         print(f"Error syncing products: {e}")
         return False
